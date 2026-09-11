@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MarketRadar Canlı</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#101828;--muted:#667085;--line:#e4e7ec;--green:#067647;--greenbg:#ecfdf3;--red:#b42318;--amber:#b54708}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+.wrap{max-width:920px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0 22px}
+.logo{font-size:28px;font-weight:900;letter-spacing:-1.3px}.pill{background:#e9fff5;color:#166c50;padding:9px 13px;border-radius:999px;font-size:13px;font-weight:800}
+.hero h1{font-size:31px;line-height:1.05;letter-spacing:-1.1px;margin:0 0 9px}.hero p{margin:0;color:var(--muted);line-height:1.5}
+.search{display:grid;grid-template-columns:1fr 165px 110px;gap:9px;margin:20px 0 10px}
+input,select,button{font:inherit;border-radius:14px;border:1px solid var(--line);padding:14px;background:#fff}button{background:#101828;color:#fff;border-color:#101828;font-weight:800;cursor:pointer}
+.hint{font-size:12px;color:var(--muted);margin-bottom:18px}.status{display:none;background:#fff;border:1px solid var(--line);padding:13px 14px;border-radius:14px;margin:14px 0;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:17px;margin-top:14px}.card h2{font-size:19px;margin:0 0 5px}.meta{font-size:12px;color:var(--muted)}
+.best{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--greenbg);border-radius:14px;padding:13px 14px;margin:14px 0}.best strong{color:var(--green);font-size:20px}
+.row{display:grid;grid-template-columns:150px 1fr auto;gap:10px;align-items:center;padding:13px 2px;border-top:1px solid #f0f1f3}.market{font-weight:800}.product{font-size:12px;color:var(--muted);line-height:1.35}.price{font-weight:900;white-space:nowrap}
+.ok{font-size:10px;background:#dcfae6;color:#067647;border-radius:999px;padding:4px 7px;font-weight:800}.bad{font-size:11px;color:#98a2b3}.source{font-size:11px;color:#98a2b3;margin-top:2px}.source a{color:#667085}
+.warn{margin-top:18px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;padding:12px 14px;border-radius:14px;font-size:12px;line-height:1.5}
+.catalogs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.cat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px;text-decoration:none;color:var(--ink);font-weight:800}.cat span{display:block;color:var(--muted);font-size:11px;font-weight:500;margin-top:5px}
+footer{font-size:11px;color:#98a2b3;margin:28px 0 40px}
+@media(max-width:700px){.wrap{padding:14px}.search{grid-template-columns:1fr}.row{grid-template-columns:105px 1fr auto}.catalogs{grid-template-columns:1fr 1fr}.logo{font-size:25px}.hero h1{font-size:27px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top"><div class="logo">MarketRadar</div><div class="pill">Canlı fiyat</div></div>
+ <section class="hero">
+   <h1>Aynı ürünü marketlerde canlı karşılaştır.</h1>
+   <p>Marka, ürün ve gramajı yaz. Örnek: <b>Yudum Ayçiçek Yağı 5 L</b></p>
+ </section>
+ <div class="search">
+   <input id="q" value="Yudum Ayçiçek Yağı 5 L" placeholder="Marka + ürün + gramaj">
+   <select id="district"><option>Pendik</option><option>Kartal</option><option>Maltepe</option><option>Ataşehir</option><option>Üsküdar</option><option>Kadıköy</option><option>Ümraniye</option><option>Çekmeköy</option><option>Sancaktepe</option><option>Tuzla</option><option>Beykoz</option></select>
+   <button id="go">Ara</button>
+ </div>
+ <div class="hint">Arama her çalıştırıldığında fiyatlar yeniden kontrol edilir. Sonuçlar mağaza/adres ve üyelik kampanyasına göre farklı olabilir.</div>
+ <div id="status" class="status"></div>
+ <div id="result"></div>
+
+ <div class="warn"><b>Canlı veri notu:</b> Market siteleri zaman zaman bot koruması, adres seçimi veya oturum zorunluluğu uygulayabilir. Böyle bir durumda MarketRadar tahmini fiyat üretmez; ilgili marketi “veri alınamadı” olarak gösterir. BİM gibi herkese açık online raf fiyatı sunmayan marketlerde katalog bağlantısı kullanılır.</div>
+
+ <h3 style="margin-top:24px">Kataloglar / kampanyalar</h3>
+ <div class="catalogs">
+   <a class="cat" href="https://www.migros.com.tr/kampanyalar" target="_blank">Migros<span>Kampanyalar</span></a>
+   <a class="cat" href="https://www.carrefoursa.com/kampanyalar" target="_blank">CarrefourSA<span>Kampanyalar</span></a>
+   <a class="cat" href="https://www.a101.com.tr/" target="_blank">A101<span>Aktüel ürünler</span></a>
+   <a class="cat" href="https://www.sokmarket.com.tr/" target="_blank">Şok<span>Haftanın fırsatları</span></a>
+   <a class="cat" href="https://www.bim.com.tr/" target="_blank">BİM<span>Aktüel ürünler</span></a>
+   <a class="cat" href="https://www.hakmarexpress.com.tr/catalogs" target="_blank">Hakmar<span>Kataloglar</span></a>
+   <a class="cat" href="https://www.file.com.tr/" target="_blank">File<span>Ürünler</span></a>
+   <a class="cat" href="https://www.happycenter.com.tr/" target="_blank">Happy Center<span>Online market</span></a>
+   <a class="cat" href="https://mopas.com.tr/kataloglar" target="_blank">Mopaş<span>Kataloglar</span></a>
+ </div>
+ <footer>MarketRadar Live v1 • Fiyat kaynağı marketlerin herkese açık web sayfalarıdır.</footer>
+</div>
+<script>
+const q=document.getElementById('q'), go=document.getElementById('go'), status=document.getElementById('status'), result=document.getElementById('result');
+function tl(n){return new Intl.NumberFormat('tr-TR',{style:'currency',currency:'TRY'}).format(n)}
+function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+async function search(){
+ const query=q.value.trim(); if(!query)return;
+ localStorage.setItem('mr-last-query',query);
+ status.style.display='block'; status.textContent='Marketler kontrol ediliyor…'; result.innerHTML=''; go.disabled=true;
+ try{
+  const r=await fetch('/.netlify/functions/live-search?q='+encodeURIComponent(query)+'&district='+encodeURIComponent(document.getElementById('district').value),{cache:'no-store'});
+  const d=await r.json();
+  if(!r.ok) throw new Error(d.error||'Arama başarısız');
+  status.textContent='Son kontrol: '+new Date(d.checkedAt).toLocaleString('tr-TR');
+  const found=d.results.filter(x=>x.price!=null).sort((a,b)=>a.price-b.price);
+  const best=found[0];
+  let html=`<div class="card"><h2>${esc(query)}</h2><div class="meta">${esc(document.getElementById('district').value)} • ${found.length}/${d.results.length} marketten fiyat bulundu</div>`;
+  if(best) html+=`<div class="best"><span>En uygun: <b>${esc(best.market)}</b></span><strong>${tl(best.price)}</strong></div>`;
+  d.results.sort((a,b)=>(a.price??999999)-(b.price??999999)).forEach(x=>{
+   html+=`<div class="row"><div class="market">${esc(x.market)}</div><div>${x.price!=null?`<div class="product">${esc(x.product||query)}</div><div class="source"><a href="${x.source}" target="_blank" rel="noopener">Kaynağı aç</a> · ${x.matchScore?Math.round(x.matchScore*100)+'% eşleşme':''}</div>`:`<div class="bad">${esc(x.message||'Canlı veri alınamadı')}</div>`}</div><div class="price">${x.price!=null?tl(x.price):'—'}</div></div>`;
+  });
+  html+='</div>'; result.innerHTML=html;
+ }catch(e){status.textContent='Hata: '+e.message}
+ finally{go.disabled=false}
+}
+go.addEventListener('click',search); q.addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+const last=localStorage.getItem('mr-last-query'); if(last)q.value=last;
+search();
+</script>
+</body></html>
